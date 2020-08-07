@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+
+</head>
+  <style>
+  .panel-control{
+    width:25%;  
+    display:inline-block;
+    float:right;
+    box-sizing: border-box; 
+  
+}
+.panel-display{
+  width:75%;
+  display:inline-block;
+}
+.flex-container {
+  display: block;
+  margin:2%;
+  max-width:960px;
+  background-color: #EFEFEF;
+    }
+    .row{
+      display:inline-block;
+      width:99%;
+    }
+.flex-container > .row > div {
+  background-color: #2B8EAD;
+  display:inline-block;
+  width:33%;
+  box-sizing: border-box; 
+  margin:auto;
+  padding: 20px;
+  font-size: 40px;
+  color:white;
+  text-align:center;
+}
+.flex-container >.row:nth-child(1)> div:nth-child(3),
+.flex-container >.row:nth-child(2)> div:nth-child(2),
+.flex-container >.row:nth-child(3)> div:nth-child(3) {
+  background: #2F454E;
+}
+.flex-container >.row:nth-child(1)> div:nth-child(2),
+.flex-container >.row:nth-child(2)> div:nth-child(1)  {
+  background: #2B8EAD;
+}
+.flex-container >.row:nth-child(2)> div:nth-child(3),
+.flex-container >.row:nth-child(3)> div:nth-child(1)  {
+  background: #bfbfbf;
+}
+.flex-container >.row:nth-child(1)> div:nth-child(1),
+.flex-container >.row:nth-child(3)> div:nth-child(2) {
+  background: #6F98A8;
+}
+.btn{
+  padding:20px;
+  height:25px;
+  min-width:30%;
+  margin:5%;
+  border-bottom: 4px solid #2B8EAD;
+  border-radius:10px;
+  background-color:#72C3DC;
+}
+  .active{     
+  opacity: 0.25;
+  box-shadow: 4px solid whilte;
+}
+    @media screen and (max-width: 375px) {
+  .panel-control {width: 100%; margin:auto; box-sizing: border-box; position: absolute; top: 20px; margin:0 auto;display:flex;}
+  .panel-display {width: 100%; margin:10px; box-sizing: border-box;position:relative; top:60px;}
+
+.flex-container {
+  width:100%;
+  background-color: #fff;
+}
+.flex-container > .row > div {
+  background-color: #efefef;
+  width:100%;
+  margin: 5px;
+  margin-bottom:0;
+  padding: 10px;
+  font-size: 30px;
+  color:white;
+  text-align: center;
+}
+    .row> div{
+  background-color: #efefef;
+  width:100%;
+  border-bottom:4px solid #fff;
+  margin-bottom:0;
+  font-size: 30px;
+  color:white;
+  text-align: center;
+    }
+    
+.btn{
+  display:inline-block;
+  padding:15px;
+  margin:2px;
+  text-align:center;
+  min-width:30%;
+  margin:0 auto;
+  border-bottom: 4px solid #2B8EAD;
+  border-radius:10px;
+  background-color:#72C3DC;
+}
+.flex-container >.row:nth-child(1)> div:nth-child(3),
+.flex-container >.row:nth-child(2)> div:nth-child(2),
+.flex-container >.row:nth-child(3)> div:nth-child(3) {
+  border-left: 8px solid #2F454E;
+  background-color: #efefef;
+  color:black;
+}
+.flex-container >.row:nth-child(1)> div:nth-child(2),
+.flex-container >.row:nth-child(2)> div:nth-child(1) {
+  border-left: 8px solid  #2B8EAD;
+  background-color: #efefef;
+  color:black;
+}
+.flex-container >.row:nth-child(2)> div:nth-child(3),
+.flex-container >.row:nth-child(3)> div:nth-child(1){
+  border-left: 8px solid #bfbfbf;
+  background-color: #efefef;
+  color:black;
+}
+
+.flex-container >.row:nth-child(1)> div:nth-child(1),
+.flex-container >.row:nth-child(3)> div:nth-child(2) {
+  border-left: 8px solid #6F98A8;
+  background-color: #efefef;
+  color:black;
+}
+  .active{
+  border: 2px solid grey;      
+  opacity: 0.25;
+}
+    }
+  </style>
+<body onload="renderArr(arr)">
+  <div class="panel-display">     
+    <div class="flex-container" id="tile">
+</div>
+  </div>
+  <div class="panel-control"> 
+    <div class="btn" onclick="sortArray()">SORT</div>
+    <div class="btn"onclick="swapArray()">SWAP</div>
+  </div>
+
+</body>
+  <script>
+
+var arr = [1,2,3,4,5,6,7,8,9];
+let swap1=-1,swap2=-1;
+var textTile = document.getElementById("tile");
+function renderArr(arr){
+var i;
+for (i = 0; i < arr.length; i++) {
+  if(i%3==0){
+  var row=document.createElement("div");
+  row.className=("row");
+  }
+	var x = document.createElement("div");
+    x.innerHTML =arr[i];
+    var att = document.createAttribute("id");
+    att.value=arr[i];
+    x.setAttributeNode(att);
+   	row.appendChild(x);
+   	textTile.appendChild(row);
+}
+    textTile.addEventListener("click", event => {
+       const numb = event.target.getAttribute('id');
+       if(swap1==-1){
+         swap1=numb;
+         let selectedNum1=document.getElementById(numb);
+         selectedNum1.className='active'
+       }else if(swap2==-1||swap1==swap2){
+         swap2=numb;
+         let selectedNum2=document.getElementById(numb);
+         selectedNum2.className='active'
+       }else{
+         console.log(swap1+" is first number"+swap2+",is second number.");
+       }
+    });
+}
+function sortArray(){
+textTile.innerHTML='';
+  swap1=-1;swap2=-1;
+let tempArr=arr.sort();
+textTile.innerHTML='';
+renderArr(tempArr);
+}
+    
+function swapArray(){
+//swapping by index
+  if(swap1==-1||swap2==-1){
+    console.log('Select 2 values to swap.');
+  }else{
+let index1=arr.indexOf(swap1*1);
+let index2=arr.indexOf(swap2*1);
+let temp=arr[index1];
+arr[index1]=arr[index2];
+arr[index2]=temp;
+textTile.innerHTML='';
+renderArr(arr);
+  swap1=-1;swap2=-1;}
+}
+</script>
+</html>
